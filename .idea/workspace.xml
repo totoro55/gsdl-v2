@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1d736315-5b5f-4afa-8bb5-314d02a28db5" name="Changes" comment="" />
+    <list default="true" id="1d736315-5b5f-4afa-8bb5-314d02a28db5" name="Changes" comment="Change path to utils">
+      <change afterPath="$PROJECT_DIR$/src/renderer/src/components/AutoUploader/utils/sleep.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/renderer/src/lib/addToLog.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/renderer/src/pages/dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/errorTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/errorTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/src/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/src/components/AutoUploader/autoUploader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/components/AutoUploader/autoUploader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/src/components/Navbar/navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/components/Navbar/navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/src/db/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/db/db.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/src/router.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/router.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/TLog.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/TLog.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,10 +27,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -34,6 +51,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/totoro/WebstormProjects/gsdl-v2/build",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -42,7 +60,7 @@
     "nodejs_package_manager_path": "npm",
     "prettier.import.notification.dismissed": "true",
     "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Users/totoro/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "/Users/totoro/WebstormProjects/gsdl-v2/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -55,11 +73,11 @@
       <recent name="$PROJECT_DIR$/src/main/services" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/renderer/src/lib" />
       <recent name="$PROJECT_DIR$/src/constants" />
       <recent name="$PROJECT_DIR$/src/renderer/src/components/AutoUploader" />
       <recent name="$PROJECT_DIR$/src/renderer/src" />
       <recent name="$PROJECT_DIR$/src/renderer/src/components/UploaderApp/components/TableItemRow" />
-      <recent name="$PROJECT_DIR$/src/renderer/src/components/UploaderApp/components/ProjectForm/components" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -77,11 +95,43 @@
       <workItem from="1701171557338" duration="10847000" />
       <workItem from="1701337689416" duration="216000" />
       <workItem from="1701801027328" duration="16412000" />
-      <workItem from="1702197247036" duration="25890000" />
+      <workItem from="1702197247036" duration="27913000" />
+      <workItem from="1702803871835" duration="12351000" />
     </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <option name="closed" value="true" />
+      <created>1702303339201</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1702303339201</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added progress bar">
+      <option name="closed" value="true" />
+      <created>1702803954819</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702803954819</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Change path to utils">
+      <option name="closed" value="true" />
+      <created>1702804091203</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1702804091203</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first commit" />
+    <MESSAGE value="added progress bar" />
+    <MESSAGE value="Change path to utils" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change path to utils" />
   </component>
 </project>

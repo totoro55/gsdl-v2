@@ -4,6 +4,7 @@ import { TProject } from "../../../types/TPoject";
 import { TProjectItem } from "../../../types/TProjectItem";
 import { TCredentials } from "../../../types/TCredentials";
 import { Timer } from "../../../types/Timer";
+import { TLog } from '../../../types/TLog'
 
 
 export class MySubClassedDexie extends Dexie {
@@ -13,14 +14,16 @@ export class MySubClassedDexie extends Dexie {
   projectItems!:Table<TProjectItem>
   credentials!:Table<TCredentials>
   timer!:Table<Timer>
+  logs!:Table<TLog>
 
   constructor() {
     super('gsdl');
-    this.version(5).stores({
+    this.version(6).stores({
       projects: '++id, name, created_at, order, default_path, default_is_periodic, default_period_type, default_period_days, default_period_dates, is_hidden', // Primary key and indexed props
       projectItems:'++id, parent_id, created_at, order, path, files, spreadsheet_id, spreadsheet_name, sheet_title, pre_cleaning, is_periodic, period_type, period_days, period_dates, status_code, status_message, status_date_time',
       credentials:'++id, client_email, private_key, is_valid',
       timer:'++id, active, hh, mm',
+      logs:'++id, created_at, type, description, isError'
     });
   }
 }

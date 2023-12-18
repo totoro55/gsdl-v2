@@ -14,7 +14,7 @@ type Route = {
 }
 
 const routes: Route[] = [
-  { order: 1, path: "/", title: "Dasboard", icon: <DashboardIcon /> },
+  { order: 1, path: "/dashboard", title: "Dashboard", icon: <DashboardIcon /> },
   { order: 5, path: "/about", title: "About", icon: <InfoCircledIcon /> },
   { order: 4, path: "/instructions", title: "FAQ", icon: <QuestionMarkCircledIcon /> },
   { order: 2, path: "/loader", title: "Uploader", icon: <UploadIcon /> },

@@ -1,12 +1,14 @@
 import { Card, Dialog, Flex, Separator, Text } from "@radix-ui/themes";
 import { db } from "../../db/db";
 import { useLiveQuery } from "dexie-react-hooks";
-import { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Timer } from "src/types/Timer";
 import { TProjectItem } from "src/types/TProjectItem";
 import filterItems from "./utils/filterItems";
 import { TCredentials } from "src/types/TCredentials";
 import { Progress } from "../ui/progress";
+import sleep from './utils/sleep'
+import { addToLog } from '../../lib/addToLog'
 
 const AutoUploader: FC = () => {
   const limit: number = 5;
@@ -18,32 +20,61 @@ const AutoUploader: FC = () => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentTry, setCurrentTry] = useState<number>(0);
   const [currentItem, setCurrentItem] = useState<TProjectItem | null>(null);
+  const [serviceMessage, setServiceMessage] = useState<string>('')
+  const [countdown, setCountdown] = useState<number>(0)
+  const [totalCountdown, setTotalCountdown] = useState<number>(0)
+
   const [open, setOpen] = useState<boolean>(false);
 
-  let id = useRef(null);
+  const id:React.MutableRefObject<undefined|number> = useRef(undefined);
 
+  useEffect(() => {
+    let  interval:undefined|number = undefined
+    if (totalCountdown) {
+      setCountdown(totalCountdown)
+      interval = window.setInterval(()=>{
+        setCountdown(prevState => prevState-1)
+      },1000)
+    }
+    return () => window.clearInterval(interval);
+  }, [totalCountdown])
 
-  const autoUpload = async (date: number, day: number) => {
-    const tryLimit = limit;
+  const autoUpload = async (date: number, day: number):Promise<void> => {
+    const tryLimit:number = limit;
+    const shortCountDown:number = 5000
+    const longCountdown:number = 60000
     let uploadedItems = filterItems(items, date, day);
     if (uploadedItems.length < 1 || credentials.length < 1) return;
     for (let i = 1; i <= tryLimit;) {
+      setTotalCountdown(0)
       setTotalCount(uploadedItems.length);
       setCurrentTry(i);
-      console.log("Попытка №", i);
+      setServiceMessage("Данные загружаются...");
       uploadedItems = await uploadItems(uploadedItems, credentials[0]).finally()
         .then(res => {
           return res;
         });
       if (uploadedItems.length < 1) {
-        console.log("Все данные успешно загружены");
-        i = tryLimit;
+        setTotalCountdown(shortCountDown/1000)
+        setServiceMessage("Все данные успешно загружены. Окно закроется через: ");
+        await addToLog({created_at:new Date(), type:'Автозагрузка', isError:false, description:'Все данные успешно загружены'})
+        await sleep(shortCountDown).then(()=>i = tryLimit+1)
       } else {
-        console.log("Не все данные загружены, переход к следующей попытке");
-        i++;
+        if (i===tryLimit) {
+          setTotalCountdown(shortCountDown/1000)
+          setServiceMessage("Не все данные загружены, истекли попытки. Окно закроется через: ");
+          await addToLog({created_at:new Date(), type:'Автозагрузка', isError:true,
+            description:`Не удалось загрузить данные для таблиц:\n ${uploadedItems.map((item)=>(item.spreadsheet_name.concat(', ', item.sheet_title, ', Ошибка: ', item.status_message||'', '\n')))}`})
+          await sleep(shortCountDown).then(()=>i++)
+        } else {
+          setTotalCount(uploadedItems.length);
+          setTotalCountdown(longCountdown/1000)
+          setServiceMessage(`Не все данные загружены, переход к попытке №${i+1} через: `);
+          await sleep(longCountdown).then(()=>i++)
+        }
       }
     }
-
+    setTotalCountdown(0)
     setCurrentTry(0);
   };
 
@@ -84,30 +115,25 @@ const AutoUploader: FC = () => {
   };
 
 
-  const counter = async (timer: Timer, delay: number) => {
+  const counter = async (timer: Timer, delay: number):Promise<void> => {
     const currentHours = new Date().getHours();
     const currentMinutes = new Date().getMinutes();
 
 
     if (!timer) {
-      console.log("not timer", new Date().toLocaleString());
-      // @ts-ignore
-      id.current = setTimeout(() => {
+      id.current = window.setTimeout(() => {
         counter(timer, delay);
       }, delay);
       return;
     }
 
     if (!timer.active) {
-      console.log("timer off", new Date().toLocaleString());
-      // @ts-ignore
-      id.current = setTimeout(() => {
+      id.current = window.setTimeout(() => {
         counter(timer, delay);
       }, delay);
       return;
     }
     if (currentHours === timer.hh && currentMinutes === timer.mm) {
-      console.log("trigger", new Date().toLocaleString());
       setOpen(true);
       const todayDate = new Date().getDate();
       const todayDay = new Date().getDay();
@@ -116,16 +142,14 @@ const AutoUploader: FC = () => {
         .finally(() => {
           setTotalCount(0);
           setOpen(false);
-          // @ts-ignore
-          id.current = setTimeout(() => {
+          setServiceMessage('')
+          id.current = window.setTimeout(() => {
             counter(timer, delay);
           }, delay);
         });
       return;
     } else {
-      console.log("not trigger", new Date().toLocaleString());
-      // @ts-ignore
-      id.current = setTimeout(() => {
+      id.current = window.setTimeout(() => {
         counter(timer, delay);
       }, delay);
       return;
@@ -135,7 +159,6 @@ const AutoUploader: FC = () => {
   useEffect(() => {
     const timer = timers[0];
     counter(timer, 54000);
-    // @ts-ignore
     return () => clearTimeout(id.current);
   }, [timers]);
 
@@ -165,6 +188,7 @@ const AutoUploader: FC = () => {
           }
           {!!totalCount &&
             <>
+              <Text size='1'>{serviceMessage}{countdown>=1 && `${countdown} сек.`}</Text>
               <Text size='1'>Прогресс: {count}/{totalCount}</Text>
               <Progress value={count / totalCount * 100} />
             </>

@@ -51,6 +51,21 @@ export const ERROR_TYPES: TResponseError[] = [
     searchValue: "[429]"
   },
 
+  {
+    critical: true,
+    description: "Имеются не уникальные заголовки. Убедитесь, что все не пустые заголовки, на указанном листе, уникальны",
+    type: "google",
+    searchValue: "Duplicate header detected"
+  },
+
+  {
+    critical: false,
+    description: "Операция была отклонена. Необходимо немного подождать.",
+    type: "google",
+    searchValue: "[409]"
+  },
+
+
 ];
 
 
