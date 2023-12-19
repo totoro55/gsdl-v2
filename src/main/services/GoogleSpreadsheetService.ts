@@ -10,15 +10,9 @@ export abstract class AbstractGoogleSpreadsheetService {
     }
 
     private async connect (sheetId:string, auth:JWT):Promise<GoogleSpreadsheet> {
-        try {
             const s  = new GoogleSpreadsheet(sheetId, auth);
             await s.loadInfo()
             return s
-        } catch (err) {
-            if (err instanceof Error)
-            throw new Error(`Ошибка подключения к документу: ${err.message}`)
-        }
-
     }
 
 }

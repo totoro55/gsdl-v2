@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1d736315-5b5f-4afa-8bb5-314d02a28db5" name="Changes" comment="Change path to utils">
-      <change afterPath="$PROJECT_DIR$/src/renderer/src/components/AutoUploader/utils/sleep.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/renderer/src/lib/addToLog.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/renderer/src/pages/dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+    <list default="true" id="1d736315-5b5f-4afa-8bb5-314d02a28db5" name="Changes" comment="added logs and optimized auto upload">
+      <change afterPath="$PROJECT_DIR$/src/renderer/src/components/LogsTable/logsTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/errorTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/errorTypes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/src/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/src/components/AutoUploader/autoUploader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/components/AutoUploader/autoUploader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/src/components/Navbar/navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/components/Navbar/navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/src/db/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/db/db.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/src/router.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/router.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/TLog.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/TLog.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/services/GoogleSpreadsheetService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/services/GoogleSpreadsheetService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/src/pages/dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/src/pages/dashboard.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,24 +37,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/totoro/WebstormProjects/gsdl-v2/build",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettier.import.notification.dismissed": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Users/totoro/WebstormProjects/gsdl-v2/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/totoro/WebstormProjects/gsdl-v2/build&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettier.import.notification.dismissed&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/totoro/WebstormProjects/gsdl-v2/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/build" />
@@ -96,7 +87,8 @@
       <workItem from="1701337689416" duration="216000" />
       <workItem from="1701801027328" duration="16412000" />
       <workItem from="1702197247036" duration="27913000" />
-      <workItem from="1702803871835" duration="12351000" />
+      <workItem from="1702803871835" duration="12776000" />
+      <workItem from="1702972537083" duration="4716000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -122,7 +114,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702804091203</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added logs and optimized auto upload">
+      <option name="closed" value="true" />
+      <created>1702909296440</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1702909296440</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,6 +132,7 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="added progress bar" />
     <MESSAGE value="Change path to utils" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change path to utils" />
+    <MESSAGE value="added logs and optimized auto upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="added logs and optimized auto upload" />
   </component>
 </project>
