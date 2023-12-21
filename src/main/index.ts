@@ -13,6 +13,12 @@ import { TProjectItem } from "../types/TProjectItem";
 import { TResponse } from "../types/TResponse";
 import { getDataFromFiles } from "./utils/getDataFromFiles";
 import getArraysOfData from "./utils/getArraysOfData";
+import TelegramBot from 'node-telegram-bot-api'
+
+// const token = '111'
+// const bot =  new TelegramBot(token, {polling:true})
+
+
 
 const fsPromises = fs.promises;
 
@@ -233,5 +239,31 @@ ipcMain.handle("google-upload-data",
         return { status: 400, message: "Произошла неизвестная ошибка" };
       }
     }
+  });
+
+//TG BOT
+
+ipcMain.handle("check-bot-token",
+  async (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    event,
+    token:string
+  ): Promise<{ status: number, data: string }> => {
+    event.preventDefault();
+    if (!token) return { status: 404, data: 'Не указан токен' }
+    return await new TelegramBot(token, {polling:false}).getMe()
+      .then(res=>{
+        if (res.username) {
+          return {status:200, data:res.username}
+        } else {
+          return {status:500, data:'Не удалось получить username бота'}
+        }
+      }).catch(err=>{
+        return {status:500, data:err.message.toString()}
+      })
 
   });
+
+

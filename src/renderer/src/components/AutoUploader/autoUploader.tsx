@@ -1,20 +1,19 @@
-import { Card, Dialog, Flex, Separator, Text } from "@radix-ui/themes";
-import { db } from "../../db/db";
-import { useLiveQuery } from "dexie-react-hooks";
-import React, { FC, useEffect, useRef, useState } from "react";
-import { Timer } from "src/types/Timer";
-import { TProjectItem } from "src/types/TProjectItem";
-import filterItems from "./utils/filterItems";
-import { TCredentials } from "src/types/TCredentials";
-import { Progress } from "../ui/progress";
+import { Card, Dialog, Flex, Separator, Text } from '@radix-ui/themes'
+import { db } from '../../db/db'
+import { useLiveQuery } from 'dexie-react-hooks'
+import React, { FC, useEffect, useRef, useState } from 'react'
+import { Timer } from 'src/types/Timer'
+import { TProjectItem } from 'src/types/TProjectItem'
+import filterItems from './utils/filterItems'
+import { TCredentials } from 'src/types/TCredentials'
+import { Progress } from '../ui/progress'
 import sleep from './utils/sleep'
 import { addToLog } from '../../lib/addToLog'
+import { LogStoredDataTypes } from '../../../../types/TLog'
 
 const AutoUploader: FC = () => {
   const limit: number = 5;
   const timers = useLiveQuery(() => db.timer.toArray(), []) || [];
-  const credentials = useLiveQuery(() => db.credentials.toArray(), []) || [];
-  const items = useLiveQuery(() => db.projectItems.toArray(), []) || [];
 
   const [count, setCount] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -43,28 +42,51 @@ const AutoUploader: FC = () => {
     const tryLimit:number = limit;
     const shortCountDown:number = 5000
     const longCountdown:number = 60000
+    const items = await db.projectItems.toArray() || []
+    const credentials = await db.credentials.toArray() || []
     let uploadedItems = filterItems(items, date, day);
+
+    await addToLog({
+      created_at:new Date(),
+      type:'Автозагрузка. Начало',
+      isError:false,
+      description:`Начало автозагрузки по расписанию для ${uploadedItems.length} таблиц(ы).`,
+    })
+
     if (uploadedItems.length < 1 || credentials.length < 1) return;
     for (let i = 1; i <= tryLimit;) {
       setTotalCountdown(0)
       setTotalCount(uploadedItems.length);
       setCurrentTry(i);
       setServiceMessage("Данные загружаются...");
-      uploadedItems = await uploadItems(uploadedItems, credentials[0]).finally()
-        .then(res => {
-          return res;
-        });
+      uploadedItems = await uploadItems(uploadedItems, credentials[0])
+        .then(res => {return res;});
       if (uploadedItems.length < 1) {
         setTotalCountdown(shortCountDown/1000)
         setServiceMessage("Все данные успешно загружены. Окно закроется через: ");
-        await addToLog({created_at:new Date(), type:'Автозагрузка', isError:false, description:'Все данные успешно загружены'})
+        const itemsAfterUpload = await db.projectItems.toArray() || []
+        const logItems = filterItems(itemsAfterUpload, date, day);
+        await addToLog({
+          created_at:new Date(),
+          type:'Автозагрузка. Конец',
+          isError:false,
+          description:`Данные успешно загружены для ${logItems.length} таблиц(ы).`,
+          stored: { type:LogStoredDataTypes.projectItems, data: logItems }
+        })
         await sleep(shortCountDown).then(()=>i = tryLimit+1)
       } else {
         if (i===tryLimit) {
           setTotalCountdown(shortCountDown/1000)
           setServiceMessage("Не все данные загружены, истекли попытки. Окно закроется через: ");
-          await addToLog({created_at:new Date(), type:'Автозагрузка', isError:true,
-            description:`Не удалось загрузить данные для таблиц:\n ${uploadedItems.map((item)=>(item.spreadsheet_name.concat(', ', item.sheet_title, ', Ошибка: ', item.status_message||'', '\n')))}`})
+          const itemsAfterUpload = await db.projectItems.toArray() || []
+          const logItems = filterItems(itemsAfterUpload, date, day);
+          await addToLog({
+            created_at:new Date(),
+            type:'Автозагрузка. Конец',
+            isError:true,
+            description:`Не все данные были загружены. Не удалось загрузить ${uploadedItems.length} из ${logItems.length} таблиц(ы).`,
+            stored: { type:LogStoredDataTypes.projectItems, data: logItems }
+          })
           await sleep(shortCountDown).then(()=>i++)
         } else {
           setTotalCount(uploadedItems.length);

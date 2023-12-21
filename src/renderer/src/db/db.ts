@@ -18,12 +18,12 @@ export class MySubClassedDexie extends Dexie {
 
   constructor() {
     super('gsdl');
-    this.version(6).stores({
+    this.version(7).stores({
       projects: '++id, name, created_at, order, default_path, default_is_periodic, default_period_type, default_period_days, default_period_dates, is_hidden', // Primary key and indexed props
       projectItems:'++id, parent_id, created_at, order, path, files, spreadsheet_id, spreadsheet_name, sheet_title, pre_cleaning, is_periodic, period_type, period_days, period_dates, status_code, status_message, status_date_time',
       credentials:'++id, client_email, private_key, is_valid',
       timer:'++id, active, hh, mm',
-      logs:'++id, created_at, type, description, isError'
+      logs:'++id, created_at, type, description, isError, parent_id, stored'
     });
   }
 }

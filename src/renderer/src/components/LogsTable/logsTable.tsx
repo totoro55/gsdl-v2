@@ -3,6 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../db/db'
 import { Badge, Card, Flex, Heading, IconButton, ScrollArea, Table, Tooltip } from '@radix-ui/themes'
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
+import InfoPopover from './components/infoPopover'
 
 const LogsTable: FC = () => {
   const logs = useLiveQuery(() => db.logs.toArray(), []) || []
@@ -12,13 +13,9 @@ const LogsTable: FC = () => {
   const memoizedLogs = useMemo(() => {
     if (showErrorsOnly) {
       return logs.filter(l => l.isError)
-        .sort((a, b) => {
-          return a.created_at > b.created_at ? -1 : a.created_at < b.created_at ? 1 : 0;
-        })
+        .sort((a, b) => {return a.created_at > b.created_at ? -1 : a.created_at < b.created_at ? 1 : 0;})
     }
-    return logs.sort((a, b) => {
-      return a.created_at > b.created_at ? -1 : a.created_at < b.created_at ? 1 : 0;
-    })
+    return logs.sort((a, b) => {return a.created_at > b.created_at ? -1 : a.created_at < b.created_at ? 1 : 0;})
   }, [logs, showErrorsOnly])
 
   return (
@@ -43,6 +40,7 @@ const LogsTable: FC = () => {
                 </Flex>
               </Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>Описание</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -58,6 +56,11 @@ const LogsTable: FC = () => {
                 </Table.Cell>
                 <Table.Cell>
                   {log.description}
+                </Table.Cell>
+                <Table.Cell>
+                  {log.stored &&
+                    <InfoPopover type={log.stored.type} data={log.stored.data} />
+                  }
                 </Table.Cell>
               </Table.Row>
             ))}

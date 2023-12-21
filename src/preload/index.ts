@@ -19,6 +19,10 @@ export interface googleApi {
   uploadData: (args: {item:TProjectItem, credentials: TCredentials})=>Promise<TResponse>
 }
 
+export interface telegramApi {
+  checkBotToken: (token:string)=>Promise<{status:number, data:string}>
+}
+
 const systemApi: SystemApi = {
 
   uploadCredentials: async (filePath: string): Promise<{ client_email: string, private_key: string } | string> => await ipcRenderer.invoke("upload-credentials", filePath),
@@ -38,6 +42,10 @@ const google: googleApi = {
   uploadData: async (args: {item:TProjectItem, credentials: TCredentials}):Promise<TResponse>=>await ipcRenderer.invoke("google-upload-data", args),
 };
 
+const telegram: telegramApi = {
+  checkBotToken: async (token:string):Promise<{status:number, data:string}> => await ipcRenderer.invoke("check-bot-token", token)
+};
+
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.
@@ -46,6 +54,7 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld("electron", electronAPI);
     contextBridge.exposeInMainWorld("systemApi", systemApi);
     contextBridge.exposeInMainWorld("google", google);
+    contextBridge.exposeInMainWorld("telegram", telegram);
   } catch (error) {
     console.error(error);
   }

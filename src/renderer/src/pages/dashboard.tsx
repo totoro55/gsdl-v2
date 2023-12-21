@@ -9,8 +9,8 @@ interface PageProps {
 const Dashboard: FC<PageProps> = () => {
   return (
     <PageLayout>
-        <Grid columns='3' width='auto'>
-          <div className='col-start-2 col-end-4'>
+        <Grid columns='4' width='auto'>
+          <div className='col-start-2 col-end-5'>
             <LogsTable />
           </div>
         </Grid>

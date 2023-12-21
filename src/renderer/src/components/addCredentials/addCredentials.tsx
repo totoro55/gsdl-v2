@@ -231,7 +231,7 @@ const AddCredentials: FC = () => {
                       value={url}
                       onChange={e=>setUrl(e.target.value)}
                       id='sheet-id'
-                      placeholder="Вставьте ID Google таблицы"
+                      placeholder="Вставьте URL Google таблицы"
                     />
                   </Flex>
                   <Tooltip content={!credentials.length

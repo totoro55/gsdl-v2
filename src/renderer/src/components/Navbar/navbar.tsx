@@ -14,11 +14,11 @@ type Route = {
 }
 
 const routes: Route[] = [
-  { order: 1, path: "/dashboard", title: "Dashboard", icon: <DashboardIcon /> },
-  { order: 5, path: "/about", title: "About", icon: <InfoCircledIcon /> },
-  { order: 4, path: "/instructions", title: "FAQ", icon: <QuestionMarkCircledIcon /> },
-  { order: 2, path: "/loader", title: "Uploader", icon: <UploadIcon /> },
-  { order: 3, path: "/settings", title: "Settings", icon: <GearIcon /> }
+  { order: 1, path: "/dashboard", title: "Дашборд", icon: <DashboardIcon /> },
+  { order: 5, path: "/about", title: "О приложении", icon: <InfoCircledIcon /> },
+  { order: 4, path: "/instructions", title: "Инстуркции", icon: <QuestionMarkCircledIcon /> },
+  { order: 2, path: "/loader", title: "Загрузчик", icon: <UploadIcon /> },
+  { order: 3, path: "/settings", title: "Настройки", icon: <GearIcon /> }
 
 ];
 const Navbar: FC = () => {
